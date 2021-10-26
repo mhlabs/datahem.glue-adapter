@@ -13,7 +13,7 @@ steps:
   - --runtime=java11
   - --entry-point=org.datahem.registry.SubjectVersion
   - --memory=512MB
-  - --set-env-vars=AWS_REGION=$_AWS_REGION
+  - --set-env-vars=AWS_REGION=$_AWS_REGION,REGISTRY_NAME=$_REGISTRY_NAME
   - --set-secrets=AWS_SECRET_ACCESS_KEY=projects/${PROJECT_NUMBER}/secrets/${_AWS_SECRET_ACCESS_KEY},AWS_ACCESS_KEY_ID=projects/${PROJECT_NUMBER}/secrets/${_AWS_ACCESS_KEY_ID}
 tags: ['aws-schema-adapter']
 substitutions:
@@ -21,3 +21,4 @@ substitutions:
   _AWS_REGION: 'eu-west-1'
   _AWS_SECRET_ACCESS_KEY: 'gcp-aws-schema-secret-key:latest'
   _AWS_ACCESS_KEY_ID: 'gcp-aws-schema-key-id:latest'
+  _REGISTRY_NAME: 'GlueRegistryName'

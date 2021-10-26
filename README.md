@@ -6,6 +6,8 @@ Save AWS credentials as GCP Secrets (gcp-aws-schema-secret-key, gcp-aws-schema-k
 
 Make sure cloud build service account has roles "Cloud Functions Admin" and "Service Account User".
 
+Or deploy from cli.
+
 ```sh
 gcloud beta functions deploy subjectVersionFn \
     --region europe-west1 \
@@ -14,7 +16,13 @@ gcloud beta functions deploy subjectVersionFn \
     --runtime java11 \
     --entry-point org.datahem.registry.SubjectVersion \
     --memory 512MB \
-    --set-env-vars AWS_REGION=eu-west-1 \
+    --set-env-vars=AWS_REGION=eu-west-1,REGISTRY_NAME=GlueRegistryName \
     --set-secrets=AWS_SECRET_ACCESS_KEY=projects/${PROJECT_ID}/secrets/gcp-aws-schema-secret-key:latest,AWS_ACCESS_KEY_ID=projects/${PROJECT_ID}/secrets/gcp-aws-schema-key-id:latest
+```
 
+test it using
+
+```sh
+curl https://<REGION-PROJECT_ID>.cloudfunctions.net/subjectVersionFn/subjects/<SUBJECT>/versions/latest \
+  -H "Authorization: bearer $(gcloud auth print-identity-token)"
 ```
