@@ -26,6 +26,7 @@ public class SubjectVersion implements HttpFunction {
   @Override
   public void service(HttpRequest request, HttpResponse response) throws IOException {
     JsonObject responsePayload =  new JsonObject();
+    String registryName = System.getenv("REGISTRY_NAME");
     try {
       Pattern pattern = Pattern.compile("/subjects/(.*)/versions/(.*)");
       Matcher matcher = pattern.matcher(request.getPath());
@@ -54,7 +55,7 @@ public class SubjectVersion implements HttpFunction {
         GetSchemaVersionResponse gsvr = gc.getSchemaVersion(GetSchemaVersionRequest.builder()
           .schemaId(SchemaId.builder()
             .schemaName(subject)
-            .registryName("PocSchemaRegistry")
+            .registryName(registryName)
               .build()
           )
           .schemaVersionNumber(svn)
